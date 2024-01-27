@@ -31,11 +31,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className='light'>
       <body className={`${montserrat.variable} ${roboto.variable}`}>
-        <AuthSessionProvider>
-          <Providers>{children}</Providers>
-        </AuthSessionProvider>
+        <Providers>
+          <AuthSessionProvider>
+            {children}
+          </AuthSessionProvider>
+        </Providers>
       </body>
     </html>
   );

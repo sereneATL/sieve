@@ -48,7 +48,7 @@ export default function Login() {
           <form className="mt-4">
             <Button
               size="lg"
-              color="primary"
+              color="danger"
               className="text-mono-light-100 w-full font-body"
               isLoading={isLoading}
               onClick={() => {

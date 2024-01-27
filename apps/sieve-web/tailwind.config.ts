@@ -30,8 +30,21 @@ const config: Config = {
       },
     },
   },
+  darkMode: "class",
   plugins: [
-    nextui(),
+    nextui({
+      themes: {
+        light: {
+          layout: {
+            disabledOpacity: "0.5",
+          },
+          colors: {
+            primary: "#e12323",
+            secondary: "#a20f0f"
+          },
+        }
+      },
+    }),
   ],
 };
 export default config;
