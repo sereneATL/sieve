@@ -28,21 +28,15 @@ const config: Config = {
         head: ['var(--font-montserrat)'],
         body: ['var(--font-roboto)'],
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
     },
   },
-  darkMode: "class",
   plugins: [
     nextui({
-      layout: {
-        disabledOpacity: "0.5",
-      },
       themes: {
         light: {
+          layout: {
+            disabledOpacity: "0.5",
+          },
           colors: {
             primary: "#e12323",
             secondary: "#a20f0f"
