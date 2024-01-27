@@ -1,7 +1,17 @@
 import { withAuth } from 'next-auth/middleware';
 import { pages } from '@/sieve-web/auth.config';
+import { NextResponse } from 'next/server';
 
-export default withAuth({
+export default withAuth(
+  // function middleware(req) {
+  //   console.log('here')
+  //   console.log(req.nextUrl.pathname)
+  //   if (req.nextauth.token && req.nextUrl.pathname.startsWith('/login')){
+  //     console.log('here')
+  //     return NextResponse.redirect('/dashboard')
+  //   }
+  // },
+  {
     secret: process.env.AUTH_SECRET,
     pages,
 });

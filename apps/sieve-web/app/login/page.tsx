@@ -4,21 +4,17 @@ import Image from "next/image";
 import {Button} from "@nextui-org/react";
 import { IoMdHeart } from "react-icons/io";
 import { signIn, useSession } from "next-auth/react"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { RiSpotifyLine } from "react-icons/ri";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation'
 
 export default function Login() {
-  const { status } = useSession({
-    required: true
-  })
 
   const router = useRouter();
-
-  if (status) {
-    router.replace('/dashboard')
-  }
+  const { status } = useSession();
   
+  if (status === "authenticated") router.replace('/dashboard')
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (

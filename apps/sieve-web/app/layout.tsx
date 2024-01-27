@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat, Roboto_Mono } from "next/font/google";
 import "./globals.css";
-import {Providers} from "./providers";
-import { SessionProvider } from "next-auth/react"
-
+import {Providers} from "./nextUiProvider";
+import { AuthSessionProvider } from "./sessionProvider";
 
 export const montserrat = Montserrat({
   subsets: ['latin'],
@@ -30,11 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.variable} ${roboto_mono.variable}`}>
-        <Providers>
-          <SessionProvider session={session}>
+        <AuthSessionProvider>
+          <Providers>
             {children}
-          </SessionProvider>
-        </Providers>
+          </Providers>
+        </AuthSessionProvider>
       </body>
     </html>
   );
