@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "pnpm run --parallel dev",
+    "lint": "pnpm --filter sieve-web lint & pnpm --filter server lint",
+    "format": "pnpm --filter sieve-web format:fix & pnpm --filter server format",
     "build:server": "pnpm --filter server build",
     "build:web": "pnpm --filter sieve-web build",
     "start:server": "pnpm --filter server start:prod",

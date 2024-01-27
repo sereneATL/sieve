@@ -1,15 +1,13 @@
-'use client';
+"use client";
 
 import Image from "next/image";
-import {Button} from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { IoMdHeart } from "react-icons/io";
-import { signIn } from "next-auth/react"
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { RiSpotifyLine } from "react-icons/ri";
 
-
 export default function Dashboard() {
-  
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (

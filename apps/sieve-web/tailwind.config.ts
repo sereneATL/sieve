@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import {nextui} from "@nextui-org/react";
+import { nextui } from "@nextui-org/react";
 
 const config: Config = {
   content: [
@@ -10,22 +10,22 @@ const config: Config = {
   ],
   theme: {
     screens: {
-      sm: '480px',
-      md: '768px',
-      lg: '976px',
-      xl: '1440px',
+      sm: "480px",
+      md: "768px",
+      lg: "976px",
+      xl: "1440px",
     },
     colors: {
-      'sieve-dark-red': '#a20f0f',
-      'sieve-red': '#e12323',
-      'bubblegum': '#ffd8e1',
-      'mono-light-100': '#ffffff',
-      'mono-light-200': '#594E60',
-      'mono-light-300': '#382a40',
+      "sieve-dark-red": "#a20f0f",
+      "sieve-red": "#e12323",
+      bubblegum: "#ffd8e1",
+      "mono-light-100": "#ffffff",
+      "mono-light-200": "#594E60",
+      "mono-light-300": "#382a40",
     },
     fontFamily: {
-      head: ['Montserrat', 'sans-serif'],
-      body: ['Roboto-mono', 'sans'],
+      head: ["Montserrat", "sans-serif"],
+      body: ["Roboto-mono", "sans"],
     },
     extend: {
       backgroundImage: {
@@ -60,15 +60,15 @@ const config: Config = {
             },
             secondary: {
               DEFAULT: "#a20f0f",
-            }
-          }
+            },
+          },
         },
         dark: {
           colors: {
             primary: {
               DEFAULT: "#e12323",
-            }
-          }
+            },
+          },
         },
       },
     }),

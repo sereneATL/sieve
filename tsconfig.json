@@ -11,8 +11,8 @@
       "forceConsistentCasingInFileNames": true,
       "noFallthroughCasesInSwitch": true,
       "paths": {
-        "@server/*": ["./apps/server/src/*"],
-        "@sieve-web/*": ["./apps/sieve-web/*"]
+        "@/server/*": ["./apps/server/src/*"],
+        "@/sieve-web/*": ["./apps/sieve-web/*"]
       }
     }
   }
