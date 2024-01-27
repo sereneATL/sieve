@@ -18,7 +18,7 @@ const config: Config = {
     colors: {
       "sieve-dark-red": "#a20f0f",
       "sieve-red": "#e12323",
-      bubblegum: "#ffd8e1",
+      "bubblegum": "#ffd8e1",
       "mono-light-100": "#ffffff",
       "mono-light-200": "#594E60",
       "mono-light-300": "#382a40",
@@ -54,7 +54,6 @@ const config: Config = {
       themes: {
         light: {
           colors: {
-            background: "#ffffff",
             primary: {
               DEFAULT: "#e12323",
             },

@@ -4,23 +4,28 @@ import Image from "next/image";
 import { Button } from "@nextui-org/react";
 import { IoMdHeart } from "react-icons/io";
 import { signIn, useSession } from "next-auth/react";
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { RiSpotifyLine } from "react-icons/ri";
 import { useRouter } from "next/navigation";
+import {Spinner} from "@nextui-org/react";
 
 export default function Login() {
   const router = useRouter();
   const { status } = useSession();
 
-  if (status === "authenticated") router.replace("/dashboard");
+  useEffect(() => {
+    console.log(status)
+    if (status === "authenticated") router.replace("/dashboard");
+  }, [status])
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <div className="flex flex-col items-center md:flex-row h-screen bg-gradient-to-b from-bubblegum to-mono-light-100">
+      ({status === 'unauthenticated' ? (<>
       <div className="flex flex-col gap-1 items-center justify-center lg:w-full w-1/2 m-20 sm:m-10">
         <Image
-          src="/sieve_logo_2.png"
+          src="/assets/sieve_logo_2.png"
           alt="Sieve Logo"
           width={400}
           height={100}
@@ -62,6 +67,11 @@ export default function Login() {
           </form>
         </div>
       </div>
-    </div>
+      </>
+      ) :
+      <div className="flex flex-col gap-1 items-center justify-center w-full">
+        <Spinner />
+      </div>})
+    </div> 
   );
 }

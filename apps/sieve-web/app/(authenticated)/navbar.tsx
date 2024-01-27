@@ -15,9 +15,11 @@ import {
 } from "@nextui-org/react";
 import { redirect } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function SieveNavbar() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   return (
     <Navbar isBordered shouldHideOnScroll>
@@ -28,7 +30,7 @@ export default function SieveNavbar() {
         <NavbarBrand>
           <Image
             as={NextImage}
-            src="/sieve_logo_2.png"
+            src="/assets/sieve_logo_2.png"
             alt="Sieve Logo"
             width={160}
             height={100}
@@ -54,11 +56,16 @@ export default function SieveNavbar() {
             variant="flat"
             className="text-mono-light-300"
           >
-            <DropdownItem key="profile" className="h-14 gap-2">
+            <DropdownItem 
+              key="profile" 
+              className="h-14 gap-2"
+              onClick={() => router.push("/profile")}
+              textValue="profile"
+            >
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">{session?.user?.email || ""}</p>
             </DropdownItem>
-            <DropdownItem key="settings">My Settings</DropdownItem>
+            <DropdownItem key="matches">My Matches</DropdownItem>
             <DropdownItem
               key="logout"
               color="danger"
