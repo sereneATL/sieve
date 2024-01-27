@@ -1,6 +1,5 @@
-"use client";
+'use client';
 
-import Image from "next/image";
 import { Avatar, Button, Input, Select, SelectItem, User } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -15,8 +14,6 @@ export default function Profile(): JSX.Element {
   const searchParams = useSearchParams()
  
   const edit = !!searchParams.get('edit')
-
-  console.log(edit)
 
   const onSubmit = () => {}
   
