@@ -21,7 +21,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center md:flex-row h-screen bg-gradient-to-b from-bubblegum to-mono-light-100">
-      ({status === 'unauthenticated' ? (<>
+      {status === 'unauthenticated' ? (<>
       <div className="flex flex-col gap-1 items-center justify-center lg:w-full w-1/2 m-20 sm:m-10">
         <Image
           src="/assets/sieve_logo_2.png"

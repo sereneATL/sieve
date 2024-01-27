@@ -142,7 +142,7 @@ export default function Profile(): JSX.Element {
             selectionMode="multiple"
             isDisabled={!edit}
           >
-            {['gaming', 'coding/programming', 'virtual reality (VR)', 'augmented reality (AR)', 'board games', 'app development', 'cybersecurity', 'robotics', 'tech gadgets', 'artificial intelligence', 'none'].map((tg, index) => (
+            {['gaming', 'coding/programming', 'crypto', 'virtual reality (VR)', 'augmented reality (AR)', 'board games', 'app development', 'cybersecurity', 'robotics', 'tech gadgets', 'artificial intelligence', 'none'].map((tg, index) => (
               <SelectItem key={tg} value={index} className="text-mono-light-300">
                 {tg}
               </SelectItem>
