@@ -8,12 +8,16 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-montserrat",
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
 });
 
-const roboto_mono = Roboto_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-roboto-mono",
+const roboto = Roboto_Mono({
+  subsets: ['latin'],
+  variable: '--font-roboto',
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -28,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.variable} ${roboto_mono.variable}`}>
+      <body className={`${montserrat.variable} ${roboto.variable}`}>
         <AuthSessionProvider>
           <Providers>{children}</Providers>
         </AuthSessionProvider>

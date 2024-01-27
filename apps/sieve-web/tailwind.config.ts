@@ -23,11 +23,11 @@ const config: Config = {
       "mono-light-200": "#594E60",
       "mono-light-300": "#382a40",
     },
-    fontFamily: {
-      head: ["Montserrat", "sans-serif"],
-      body: ["Roboto-mono", "sans"],
-    },
     extend: {
+      fontFamily: {
+        head: ['var(--font-montserrat)'],
+        body: ['var(--font-roboto)'],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -39,36 +39,15 @@ const config: Config = {
   plugins: [
     nextui({
       layout: {
-        disabledOpacity: "0.3", // opacity-[0.3]
-        radius: {
-          small: "2px", // rounded-small
-          medium: "4px", // rounded-medium
-          large: "6px", // rounded-large
-        },
-        borderWidth: {
-          small: "1px", // border-small
-          medium: "1px", // border-medium
-          large: "2px", // border-large
-        },
+        disabledOpacity: "0.5",
       },
       themes: {
         light: {
           colors: {
-            primary: {
-              DEFAULT: "#e12323",
-            },
-            secondary: {
-              DEFAULT: "#a20f0f",
-            },
+            primary: "#e12323",
+            secondary: "#a20f0f"
           },
-        },
-        dark: {
-          colors: {
-            primary: {
-              DEFAULT: "#e12323",
-            },
-          },
-        },
+        }
       },
     }),
   ],

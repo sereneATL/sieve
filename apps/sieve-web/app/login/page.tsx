@@ -30,8 +30,8 @@ export default function Login() {
           width={400}
           height={100}
         />
-        <p className="text-sieve-dark-red font-head font-semibold text-xs sm:text-sm md:text-lg m-2">
-          sifting sweet connections
+        <p className="text-sieve-dark-red font-head text-xs sm:text-sm md:text-lg m-2">
+          sifting musical connections
         </p>
       </div>
       <div className="flex flex-col items-center justify-center w-full">
@@ -40,14 +40,13 @@ export default function Login() {
             Welcome to Sieve!
             <IoMdHeart />
           </h1>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             <p className="text-mono-light-300">start sifting now</p>
-            <div className="flex flex-row gap-1 text-mono-light-200">
-              Log in or Sign up via{" "}
-              <p className="text-sieve-dark-red">Spotify</p>
+            <div className="flex flex-row gap-1 text-sieve-red mt-2">
+              find your perfect match based on musical vibes
             </div>
           </div>
-          <form className="mt-6">
+          <form className="mt-4">
             <Button
               size="lg"
               color="primary"
