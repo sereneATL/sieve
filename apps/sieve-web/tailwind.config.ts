@@ -31,19 +31,7 @@ const config: Config = {
     },
   },
   plugins: [
-    nextui({
-      themes: {
-        light: {
-          layout: {
-            disabledOpacity: "0.5",
-          },
-          colors: {
-            primary: "#e12323",
-            secondary: "#a20f0f"
-          },
-        }
-      },
-    }),
+    nextui(),
   ],
 };
 export default config;
