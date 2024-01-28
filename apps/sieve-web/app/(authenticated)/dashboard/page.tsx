@@ -20,7 +20,7 @@ export default function Dashboard() {
           endContent={<FaHeart />}
           onClick={() => redirect('/discover')}
         >
-          start sieving your matches
+          start sifting your matches
         </Button>
       </div>
     </div>

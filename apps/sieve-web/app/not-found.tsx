@@ -9,7 +9,7 @@ export default function NotFoundPage() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col justify-center items-center md:flex-row h-screen bg-gradient-to-b from-bubblegum to-mono-light-100">
+    <div className="flex flex-col justify-center items-center md:flex-row h-screen bg-gradient-to-b from-[#ffd8e1] to-white">
       <div className="flex flex-col gap-20 w-1/2 items-center">
         <Image
           isZoomed
@@ -17,7 +17,7 @@ export default function NotFoundPage() {
           alt="page not found"
         />
         <div className="flex flex-col gap-4 w-1/2 justify-center items-center">
-          <p className="font-head sm:text-md md:text-lg lg:text-3xl text-sieve-dark-red">
+          <p className="font-head sm:text-md md:text-lg lg:text-3xl text-[#a20f0f]">
             Page Not Found
           </p>
           <Button

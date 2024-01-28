@@ -1,7 +1,7 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Montserrat, Roboto_Mono } from "next/font/google";
-import "./globals.css";
-import { Providers } from "./nextUiProvider";
+import { Providers } from "./providers";
 import { AuthSessionProvider } from "./sessionProvider";
 
 const montserrat = Montserrat({
@@ -31,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className='light'>
+    <html lang="en">
       <body className={`${montserrat.variable} ${roboto.variable}`}>
         <Providers>
           <AuthSessionProvider>

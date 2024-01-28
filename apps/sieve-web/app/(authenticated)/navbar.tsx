@@ -54,7 +54,7 @@ export default function SieveNavbar() {
           <DropdownMenu
             aria-label="Profile Actions"
             variant="flat"
-            className="text-mono-light-300"
+            className="text-[#382a40]"
           >
             <DropdownItem 
               key="profile" 

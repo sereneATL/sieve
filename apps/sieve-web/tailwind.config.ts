@@ -1,12 +1,12 @@
-import type { Config } from "tailwindcss";
-import { nextui } from "@nextui-org/react";
+import {nextui} from '@nextui-org/theme'
 
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
     screens: {
@@ -14,14 +14,6 @@ const config: Config = {
       md: "768px",
       lg: "976px",
       xl: "1440px",
-    },
-    colors: {
-      "sieve-dark-red": "#a20f0f",
-      "sieve-red": "#e12323",
-      "bubblegum": "#ffd8e1",
-      "mono-light-100": "#ffffff",
-      "mono-light-200": "#594E60",
-      "mono-light-300": "#382a40",
     },
     extend: {
       fontFamily: {
@@ -40,11 +32,10 @@ const config: Config = {
           },
           colors: {
             primary: "#e12323",
-            secondary: "#a20f0f"
+            secondary: "#a20f0f",
           },
         }
       },
     }),
   ],
-};
-export default config;
+}
