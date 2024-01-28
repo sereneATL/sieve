@@ -5,8 +5,8 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { FaHeart } from "react-icons/fa";
-import { trpc } from "@/sieve-web/app/trpc";
-import { UserProfilesRepository } from "@/server/modules/userProfiles/userProfiles.repository";
+// import { trpc } from "@/sieve-web/app/trpc";
+// import { UserProfilesRepository } from "@/server/modules/userProfiles/userProfiles.repository";
 
 export default function Profile(): JSX.Element{
 
