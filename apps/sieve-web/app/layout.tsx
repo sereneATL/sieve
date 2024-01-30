@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Montserrat, Roboto_Mono } from "next/font/google";
 import { Providers } from "./providers";
 import { AuthSessionProvider } from "./sessionProvider";
+import "react-toastify/dist/ReactToastify.css";
+import ToastProvider from "@/sieve-web/app/toastProvider";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -35,7 +37,9 @@ export default function RootLayout({
       <body className={`${montserrat.variable} ${roboto.variable}`}>
         <Providers>
           <AuthSessionProvider>
-            {children}
+            <ToastProvider>
+              {children}
+            </ToastProvider>
           </AuthSessionProvider>
         </Providers>
       </body>

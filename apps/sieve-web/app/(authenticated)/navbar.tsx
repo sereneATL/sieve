@@ -13,7 +13,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import { redirect } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -25,7 +24,7 @@ export default function SieveNavbar() {
     <Navbar isBordered shouldHideOnScroll>
       <div
         className="hover:cursor-pointer hover:opacity-75"
-        onClick={() => redirect("/dashboard")}
+        onClick={() => router.push("/dashboard")}
       >
         <NavbarBrand>
           <Image
