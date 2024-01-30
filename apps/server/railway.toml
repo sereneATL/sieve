@@ -1,0 +1,7 @@
+[build]
+builder = "nixpacks"
+buildCommand = "pnpm build:deploy"
+
+
+[deploy]
+startCommand = "pnpm start:migrate:prod"
