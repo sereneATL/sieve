@@ -9,8 +9,13 @@
     "schema": "src/database/schema.prisma"
   },
   "scripts": {
-    "migrate": "npx prisma migrate dev",
+    "generate:prisma": "prisma generate",
+    "prisma:debug": "prisma db push",
+    "prisma:dev": "prisma migrate dev --name",
+    "prisma:deploy": "prisma migrate deploy",
+    "start:migrate:prod": "npm run prisma:deploy && npm run start:prod",
     "build": "nest build",
+    "build:deploy": "pnpm generate:prisma & pnpm build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest start --watch",
