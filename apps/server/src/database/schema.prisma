@@ -9,3 +9,70 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model UserProfile {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  gender      Gender 
+  age         Int       
+  personalityType PersonalityType 
+  sportsScore Int
+  artsEntertainmentScore  Int
+  outdoorActivitiesScore  Int
+  technologyGamingScore   Int
+  culinaryArtsScore Int
+  wellnessFitnessScore  Int
+  otherHobbies  Int
+  genderPreference  Gender 
+  samePersonalityPreference Boolean
+  sameMusicTypePreference Int
+  minAgePreference  Int
+  maxAgePreference  Int
+  matchAsUser1 Match[] @relation("User1Relation")
+  matchAsUser2 Match[] @relation("User2Relation")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  musicPreferences MusicPreferences?
+}
+
+model MusicPreferences {
+  id  Int       @id @default(autoincrement())
+  user UserProfile @relation(fields: [userId], references: [id])
+  userId Int  @unique
+  topGenres String[]
+  topArtists String[]
+  topTracksString String[]
+  topTracksId String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  ALL
+}
+
+enum PersonalityType {
+  INTROVERT
+  EXTROVERT
+  AMBIVERT
+}
+
+model Match {
+  id          Int       @id @default(autoincrement())
+  matchScore  Decimal
+  matchStatus  MatchStatus  @default(PENDING)
+  user1Id    Int
+  user1      UserProfile    @relation("User1Relation", fields: [user1Id], references: [id])
+  user2Id    Int
+  user2      UserProfile    @relation("User2Relation", fields: [user2Id], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum MatchStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
