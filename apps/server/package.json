@@ -11,7 +11,7 @@
   "scripts": {
     "generate:prisma": "prisma generate",
     "prisma:debug": "prisma db push",
-    "prisma:dev": "prisma migrate dev --name",
+    "prisma:dev": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "start:migrate:prod": "npm run prisma:deploy && npm run start:prod",
     "build": "nest build",

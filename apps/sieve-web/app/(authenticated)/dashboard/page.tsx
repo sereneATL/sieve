@@ -1,7 +1,7 @@
 'use client';
 import { Button, Image, Spinner} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import { trpc } from "@/sieve-web/app/trpc";
@@ -12,12 +12,14 @@ export default function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    trpc.user
-      .query({ email: session?.user?.email || ''})
-      .then(({ data }) => {
-        if (data === null) router.push('/profile?edit=true')
+    if (session?.user?.email){
+      trpc.user
+      .query({ email: session?.user?.email})
+      .then((response) => {
+        if ('error' in response ) router.push('/profile?edit=true')
       });
-  }, [session?.user?.email])
+    }
+  }, [session?.user?.email, router])
 
   return (
     session?.user ? 
@@ -34,7 +36,7 @@ export default function Dashboard() {
               color="primary"
               size="lg"
               endContent={<FaHeart />}
-              onClick={() => redirect('/discover')}
+              onClick={() => router.push('/discover')}
             >
               start sifting your matches
             </Button>

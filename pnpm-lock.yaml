@@ -140,9 +140,15 @@ importers:
       react-icons:
         specifier: ^5.0.1
         version: 5.0.1(react@18.2.0)
+      react-spring:
+        specifier: 9.0.0-beta.3
+        version: 9.0.0-beta.3(react-dom@18.2.0)(react@18.2.0)
       react-toastify:
         specifier: ^10.0.4
         version: 10.0.4(react-dom@18.2.0)(react@18.2.0)
+      react-use-gesture:
+        specifier: 5.0.0
+        version: 5.0.0(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -7766,7 +7772,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: true
 
   /proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
@@ -7848,7 +7853,6 @@ packages:
 
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-    dev: true
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
@@ -7889,6 +7893,18 @@ packages:
       use-sidecar: 1.1.2(@types/react@18.2.48)(react@18.2.0)
     dev: false
 
+  /react-spring@9.0.0-beta.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-YkF5blWN+xhWd44ZynkM0NmnL5veeEn1AzLeklXl0A7jr7xhqk7FTWU0vxLxTTeB7dFBV11nkT0W6BdpMdoxXw==}
+    peerDependencies:
+      react: '>= 16.8.0'
+      react-dom: '>= 16.8.0'
+    dependencies:
+      '@babel/runtime': 7.23.8
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /react-style-singleton@2.2.1(@types/react@18.2.48)(react@18.2.0):
     resolution: {integrity: sha512-ZWj0fHEMyWkHzKYUr2Bs/4zU6XLmq9HsgBURm7g5pAVfyn49DgUiNgY2d4lXRlYSiCif9YBGpQleewkcqddc7g==}
     engines: {node: '>=10'}
@@ -7927,6 +7943,17 @@ packages:
       react-dom: '>=16'
     dependencies:
       clsx: 2.1.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-use-gesture@5.0.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-EVTUuj8HTdlKd/T8mUE9zWsVxGkCnwjIiFl6H+PNblxuWvwovgoJfW8vPxb5Ng1Xp+ZJPWxjSj+XGoyKKpz7fg==}
+    deprecated: This package is no longer maintained. Please use @use-gesture/react instead
+    peerDependencies:
+      react: '>= 16.8.0'
+      react-dom: '>= 16.8.0'
+    dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false

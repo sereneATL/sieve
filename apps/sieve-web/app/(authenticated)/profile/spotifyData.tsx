@@ -1,10 +1,10 @@
-import { SpotifyAudioFeatures, SpotifyTracksArtistResponse } from "./types"
+import { SpotifyAudioFeatures, SpotifyTracksArtistResponse } from "../../../types/types"
 
 const spotifyBaseUrl = "https://api.spotify.com/v1"
 
-const getSpotifyData = async (params: {
+export const getSpotifyData = async (params: {
     path: string, token: string
-}): Promise<SpotifyTracksArtistResponse> => {
+}): Promise<SpotifyTracksArtistResponse | SpotifyAudioFeatures> => {
     const res = await fetch(
         `${spotifyBaseUrl}${params.path}`, { 
             headers: {
@@ -17,19 +17,37 @@ const getSpotifyData = async (params: {
     return await res.json();
 }
 
-const getAudioFeatures = async (trackId: string[], token: string) => {
-    return await getSpotifyData({path: `/audio-features/${trackId}`, token});
+const getAudioFeatures = async (trackId: string, token: string): Promise<SpotifyAudioFeatures> => {
+    return (await getSpotifyData({path: `/audio-features/${trackId}`, token}) as SpotifyAudioFeatures);
 }
 
-export const aggregateAudioFeatures = async () => {
+export const aggregateAudioFeatures = async (topTracks: string[], token: string) => {
+    const promises = topTracks.map((trackId): Promise<SpotifyAudioFeatures> => getAudioFeatures(trackId, token));
+    const audioFeaturesList: SpotifyAudioFeatures[]  = await Promise.all(promises);
 
+    const sum: SpotifyAudioFeatures = {
+        acousticness: 0,
+        danceability: 0,
+        energy: 0,
+        instrumentalness: 0,
+        liveness: 0,
+        speechiness: 0,
+        valence: 0,
+    };
+
+    for (const audioFeatures of audioFeaturesList) {
+        for (const key of Object.keys(audioFeatures) as (keyof SpotifyAudioFeatures)[]) {
+            sum[key] += audioFeatures[key];
+        }
+    }
+    return sum
 }
 
 
 export const compileSpotifyTracksData = async (token: string): Promise<{trackNames: string[], id: string[]}> => {
     const data = await getSpotifyData({path: "/me/top/tracks?limit=49", token})
     
-    const { id, trackNames } = data.items.reduce(
+    const { id, trackNames } = (data as SpotifyTracksArtistResponse).items.reduce(
         (accumulator, { name, id }) => {
             accumulator.id.push(id as string);
 
@@ -45,7 +63,7 @@ export const compileSpotifyTracksData = async (token: string): Promise<{trackNam
 export const compileSpotifyArtistsData = async (token: string): Promise<{names: string[], topGenres: string[]}> => {
     const data = await getSpotifyData({path: "/me/top/artists?limit=49", token})
     
-    const { names, genres } = data.items.reduce(
+    const { names, genres } = (data as SpotifyTracksArtistResponse).items.reduce(
         (accumulator, { name, genres }) => {
             accumulator.names.push(name);
             accumulator.genres.push(genres as string);

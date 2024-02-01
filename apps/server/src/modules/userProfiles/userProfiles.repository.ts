@@ -1,6 +1,12 @@
 import { PrismaService } from '@/server/database/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { UserProfile, Prisma } from '@prisma/client';
+import { UserProfile, Prisma, MusicPreferences } from '@prisma/client';
+
+export type UserWithMusicPreferences = Prisma.UserProfileGetPayload<{
+  include: {
+    musicPreferences: true
+  };
+}>;
 
 @Injectable()
 export class UserProfilesRepository {
@@ -13,9 +19,11 @@ export class UserProfilesRepository {
 
     async getUserProfile(params: {
         where: Prisma.UserProfileWhereUniqueInput;
-      }): Promise<UserProfile | null> {
-        const { where } = params;
-        return this.prisma.userProfile.findUnique({where});
+        select?: Prisma.UserProfileSelect;
+        include?: Prisma.UserProfileInclude;
+      }): Promise<UserWithMusicPreferences | UserProfile | null>{
+        const { where, include, select } = params;
+        return this.prisma.userProfile.findUnique({where, include});
     }
     
     async getAllUserProfiles(params: {
@@ -24,9 +32,10 @@ export class UserProfilesRepository {
         cursor?: Prisma.UserProfileWhereUniqueInput;
         where?: Prisma.UserProfileWhereInput;
         orderBy?: Prisma.UserProfileOrderByWithRelationInput;
-      }): Promise<UserProfile[]> {
-        const { skip, take, cursor, where, orderBy } = params;
-        return this.prisma.userProfile.findMany({ skip, take, cursor, where, orderBy });
+        include?: Prisma.UserProfileInclude;
+      }): Promise<Array<UserWithMusicPreferences | UserProfile>> {
+        const { skip, take, cursor, where, orderBy, include} = params;
+        return this.prisma.userProfile.findMany({ skip, take, cursor, where, orderBy, include});
     }
     
     async updateUserProfile(params: {

@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { FaHeart } from "react-icons/fa";
 import { trpc } from "@/sieve-web/app/trpc";
-import { compileSpotifyArtistsData, compileSpotifyTracksData } from "./spotifyData";
-import { MusicPreferences, UserProfile } from "./types";
+import { aggregateAudioFeatures, compileSpotifyArtistsData, compileSpotifyTracksData, getSpotifyData } from "./spotifyData";
+import { MusicPreferences, SpotifyAudioFeatures, UserProfile } from "../../../types/types";
 import { toast } from 'react-toastify';
 
 
@@ -35,16 +35,24 @@ export default function Profile(): JSX.Element{
   const [loading, setLoading] = useState(false);
 
   const [musicPreferences, setMusicPreferences] = useState<MusicPreferences>();
+  const [audioFeatures, setAudioFeatures] = useState<SpotifyAudioFeatures>();
+  const [profilePicUrl, setProfilePicUrl] = useState<string>();
+  
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const edit = !!searchParams.get('edit')
 
   useEffect(() => {
-    trpc.user
-      .query({ email: data?.user?.email || ''})
-      .then(({ data }) => {
-        (data === null) ? router.push('/profile?edit=true') : setUserProfile(data as UserProfile)
+    if (data?.user?.email){
+      trpc.user
+      .query({ email: data?.user?.email})
+      .then((response) => {
+        ('error' in response ) ? router.push('/profile?edit=true') : setUserProfile(response.data as UserProfile)
       });
+    }
 
     async function getAllData() {
+      getSpotifyData({path: '/me', token: data?.accessToken}).then((x: any) => setProfilePicUrl(x.images[1]))
       const {names, topGenres} = await compileSpotifyArtistsData(data?.accessToken);
       const {id, trackNames} = await compileSpotifyTracksData(data?.accessToken);
     
@@ -58,11 +66,23 @@ export default function Profile(): JSX.Element{
     if (data?.user?.email) {
       getAllData()
     }
-  }, [data?.user])
+  }, [data?.user, data?.accessToken])
 
-  const searchParams = useSearchParams()
- 
-  const edit = !!searchParams.get('edit')
+  useEffect(() => {
+    if (userProfile?.email && edit){
+      router.push('/profile')
+    }
+  }, [userProfile])
+
+  useEffect(() => {
+    async function getAggregatedAudioFeatures() {
+      const aggregated = await aggregateAudioFeatures(musicPreferences?.topTracksId!, data?.accessToken);
+      setAudioFeatures(aggregated)
+    }
+    if (musicPreferences?.topTracksId){
+      getAggregatedAudioFeatures() 
+    }
+  }, [musicPreferences?.topTracksId, data?.accessToken])
 
   const saveMusicPreferences = async (userId: number) => {
     return await trpc.createUserMusicPreferences.mutate({
@@ -70,15 +90,24 @@ export default function Profile(): JSX.Element{
       topTracksId: musicPreferences?.topTracksId!,
       topTracksString: musicPreferences?.topTracksString!,
       topArtists: musicPreferences?.topArtists!,
-      topGenres: musicPreferences?.topGenres!
+      topGenres: musicPreferences?.topGenres!,
+      acousticnessScore: audioFeatures?.acousticness!,
+      danceabilityScore: audioFeatures?.danceability!,
+      energyScore: audioFeatures?.energy!,
+      instrumentalnessScore: audioFeatures?.instrumentalness!,
+      livenessScore: audioFeatures?.liveness!,
+      speechinessScore: audioFeatures?.speechiness!,
+      valenceScore: audioFeatures?.valence!
     })
   }
 
   const saveUserProfile = async () => {
     return await trpc.createUser.mutate({
       email: data?.user?.email ?? '',
+      name: data?.user?.name ?? '',
       gender: gender!,
       age: age!,
+      profilePicture: profilePicUrl ?? data?.user?.image ?? '',
       personalityType: personalityType!,
       genderPreference: genderPreference!,
       samePersonalityPreference: samePersonalityPreference!,
@@ -95,7 +124,7 @@ export default function Profile(): JSX.Element{
     })
   } 
 
-  const onSubmit = async() => {
+  const onSubmit = async () => {
     setLoading(true);
     // save user 
     const { data } = await saveUserProfile()
@@ -106,7 +135,7 @@ export default function Profile(): JSX.Element{
     })
   }
   
-  return (data ? 
+  return (data?.user ? 
   <>
     <div className="w-full sm:w-2/3 flex flex-col gap-4 md:gap-8">
         <div className="flex flex-col gap-4 items-center"> 
@@ -121,8 +150,8 @@ export default function Profile(): JSX.Element{
             as="button"
             className="transition-transform sm:w-[100px] sm:h-[100px] w-[50px] h-[50px]"
             color="secondary"
-            name={data?.user?.name || ""}
-            src={data?.user?.image || ""}
+            name={data?.user?.name! }
+            src={data?.user?.image!}
           />
         </div>
         <form onSubmit={onSubmit} className="w-full flex flex-col gap-4 font-mono text-[#382a40]">
@@ -142,21 +171,23 @@ export default function Profile(): JSX.Element{
           <Textarea
             isDisabled
             label="Musical aura"
-            value={musicPreferences?.topGenres ? (musicPreferences.topGenres.length > 5) ? musicPreferences!.topGenres.slice(0,5).join(', ') :  musicPreferences!.topGenres.join(', ') : ''}
+            value={musicPreferences?.topGenres.slice(0,8).join(', ')}
           />
 
           <Textarea
             label="Top artists"
             isDisabled
-            value={musicPreferences?.topArtists.slice(0,5).join(', ')}
+            value={musicPreferences?.topArtists.slice(0,8).join(', ')}
           />
 
           <Textarea
             label="Top tracks"
             isDisabled
-            value={musicPreferences?.topTracksString.slice(0,5).join(', ')}
+            value={musicPreferences?.topTracksString.slice(0,8).join(', ')}
           />
 
+        {edit && 
+          <>
           <div className="text-[#a20f0f] font-head mt-2 flex flex-row gap-2">
             <p>About me</p>
             <FaHeart className="mt-1"/>
@@ -168,7 +199,7 @@ export default function Profile(): JSX.Element{
             onSelectionChange={(keys: any)=> setGender(keys.currentKey.toUpperCase())}
           >
             {['male', 'female'].map((gender) => (
-              <SelectItem key={gender} value={userProfile?.gender ?? gender} className="text-[#382a40]">
+              <SelectItem key={gender} value={gender} className="text-[#382a40]">
                 {gender}
               </SelectItem>
             ))
@@ -199,107 +230,104 @@ export default function Profile(): JSX.Element{
             }
           </Select>
 
-          <div className="text-[#a20f0f] font-head mt-2 flex flex-row gap-2">
-            <p>About my interests</p>
-            <FaHeart className="mt-1"/>
-          </div>
-          <div className="flex flex-col gap-2">
-            {edit && <>
-              <p className="font-head text-[#e12323] text-sm flex flex-row gap-2">Speedfire round! Select all your interests!</p>
+            <div className="text-[#a20f0f] font-head mt-2 flex flex-row gap-2">
+              <p>About my interests</p>
+              <FaHeart className="mt-1"/>
+            </div>
+            <div className="flex flex-col gap-2">
+                <p className="font-head text-[#e12323] text-sm flex flex-row gap-2">Speedfire round! Select all your interests!</p>
+                  <Select 
+                    label="Sports" 
+                    selectionMode="multiple"
+                    isDisabled={!edit}
+                    onSelectionChange={(keys: any)=> setSportsScore(keys.size)}
+                  >
+                  {['football', 'basketball', 'tennis', 'cycling', 'running', 'swimming', 'volleyball', 'golf', 'soccer', 'martial arts', 'none'].map((sport, index) => (
+                    <SelectItem key={sport} value={index} className="text-[#382a40]">
+                      {sport}
+                    </SelectItem>
+                  ))
+                  }
+                </Select>
                 <Select 
-                  label="Sports" 
+                  label="Arts & Entertainment" 
                   selectionMode="multiple"
                   isDisabled={!edit}
-                  onSelectionChange={(keys: any)=> setSportsScore(keys.size)}
+                  onSelectionChange={(keys: any)=> setArtsEntertainmentScore(keys.size)}
                 >
-                {['football', 'basketball', 'tennis', 'cycling', 'running', 'swimming', 'volleyball', 'golf', 'soccer', 'martial arts', 'none'].map((sport, index) => (
-                  <SelectItem key={sport} value={index} className="text-[#382a40]">
-                    {sport}
-                  </SelectItem>
-                ))
-                }
-              </Select>
-              <Select 
-                label="Arts & Entertainment" 
-                selectionMode="multiple"
-                isDisabled={!edit}
-                onSelectionChange={(keys: any)=> setArtsEntertainmentScore(keys.size)}
-              >
-                {['painting', 'writing', 'photography', 'film/tv shows', 'music', 'theater', 'dance', 'sculpture', 'literature', 'poetry', 'none'].map((ae, index) => (
-                  <SelectItem key={ae} value={index} className="text-[#382a40]">
-                    {ae}
-                  </SelectItem>
-                ))
-                }
-              </Select>
-              <Select 
-                label="Outdoor Activities" 
-                selectionMode="multiple"
-                isDisabled={!edit}
-                onSelectionChange={(keys: any)=> setOutdoorActivitiesScore(keys.size)}
-              >
-                {['hiking', 'camping', 'fishing', 'gardening', 'bird watching', 'rock climbing', 'nature photography', 'backpacking', 'stargazing', 'none'].map((outdoorActivity, index) => (
-                  <SelectItem key={outdoorActivity} value={index} className="text-[#382a40]">
-                    {outdoorActivity}
-                  </SelectItem>
-                ))
-                }
-              </Select>
-              <Select 
-                label="Technology & Gaming" 
-                selectionMode="multiple"
-                isDisabled={!edit}
-                onSelectionChange={(keys: any)=> setTechnologyGamingScore(keys.size)}
-              >
-                {['gaming', 'coding/programming', 'crypto', 'virtual reality (VR)', 'augmented reality (AR)', 'board games', 'app development', 'cybersecurity', 'robotics', 'tech gadgets', 'artificial intelligence', 'none'].map((tg, index) => (
-                  <SelectItem key={tg} value={index} className="text-[#382a40]">
-                    {tg}
-                  </SelectItem>
-                ))
-                }
-              </Select>
-              <Select 
-                label="Culinary Arts" 
-                selectionMode="multiple"
-                isDisabled={!edit}
-                onSelectionChange={(keys: any)=> setCulinaryArtsScore(keys.size)}
-              >
-                {['cooking', 'baking', 'wine tasting', 'cafe hopping', 'grilling/barbecuing', 'food photography', 'recipe creation', 'international cuisine', 'healthy eating', 'home brewing', 'vegan/vegetarian cooking', 'none'].map((culArts, index) => (
-                  <SelectItem key={culArts} value={index} className="text-[#382a40]">
-                    {culArts}
-                  </SelectItem>
-                ))
-                }
-              </Select>
-              <Select 
-                label="Wellness & Fitness" 
-                selectionMode="multiple"
-                isDisabled={!edit}
-                onSelectionChange={(keys: any)=> setWellnessFitnessScore(keys.size)}
-              >
-                {['yoga', 'meditation', 'crossfit', 'weightlifting', 'pilates', 'nutrition', 'zumba', 'mindfulness', 'none'].map((wf, index) => (
-                  <SelectItem key={wf} value={index} className="text-[#382a40]">
-                    {wf}
-                  </SelectItem>
-                ))
-                }
-              </Select>
-              <Select 
-                label="Other Hobbies" 
-                selectionMode="multiple"
-                isDisabled={!edit}
-                onSelectionChange={(keys: any)=> setOtherHobbies(keys.size)}
-              >
-                {['reading', 'journalling', 'dancing', 'travelling', 'volunteering', 'listening to music', 'none'].map((otherHobbies, index) => (
-                  <SelectItem key={otherHobbies} value={index} className="text-[#382a40]">
-                    {otherHobbies}
-                  </SelectItem>
-                ))
-                }
-              </Select>
-            </>}
+                  {['painting', 'writing', 'photography', 'film/tv shows', 'music', 'theater', 'dance', 'sculpture', 'literature', 'poetry', 'none'].map((ae, index) => (
+                    <SelectItem key={ae} value={index} className="text-[#382a40]">
+                      {ae}
+                    </SelectItem>
+                  ))
+                  }
+                </Select>
+                <Select 
+                  label="Outdoor Activities" 
+                  selectionMode="multiple"
+                  isDisabled={!edit}
+                  onSelectionChange={(keys: any)=> setOutdoorActivitiesScore(keys.size)}
+                >
+                  {['hiking', 'camping', 'fishing', 'gardening', 'bird watching', 'rock climbing', 'nature photography', 'backpacking', 'stargazing', 'none'].map((outdoorActivity, index) => (
+                    <SelectItem key={outdoorActivity} value={index} className="text-[#382a40]">
+                      {outdoorActivity}
+                    </SelectItem>
+                  ))
+                  }
+                </Select>
+                <Select 
+                  label="Technology & Gaming" 
+                  selectionMode="multiple"
+                  isDisabled={!edit}
+                  onSelectionChange={(keys: any)=> setTechnologyGamingScore(keys.size)}
+                >
+                  {['gaming', 'coding/programming', 'crypto', 'virtual reality (VR)', 'augmented reality (AR)', 'board games', 'app development', 'cybersecurity', 'robotics', 'tech gadgets', 'artificial intelligence', 'none'].map((tg, index) => (
+                    <SelectItem key={tg} value={index} className="text-[#382a40]">
+                      {tg}
+                    </SelectItem>
+                  ))
+                  }
+                </Select>
+                <Select 
+                  label="Culinary Arts" 
+                  selectionMode="multiple"
+                  isDisabled={!edit}
+                  onSelectionChange={(keys: any)=> setCulinaryArtsScore(keys.size)}
+                >
+                  {['cooking', 'baking', 'wine tasting', 'cafe hopping', 'grilling/barbecuing', 'food photography', 'recipe creation', 'international cuisine', 'healthy eating', 'home brewing', 'vegan/vegetarian cooking', 'none'].map((culArts, index) => (
+                    <SelectItem key={culArts} value={index} className="text-[#382a40]">
+                      {culArts}
+                    </SelectItem>
+                  ))
+                  }
+                </Select>
+                <Select 
+                  label="Wellness & Fitness" 
+                  selectionMode="multiple"
+                  isDisabled={!edit}
+                  onSelectionChange={(keys: any)=> setWellnessFitnessScore(keys.size)}
+                >
+                  {['yoga', 'meditation', 'crossfit', 'weightlifting', 'pilates', 'nutrition', 'zumba', 'mindfulness', 'none'].map((wf, index) => (
+                    <SelectItem key={wf} value={index} className="text-[#382a40]">
+                      {wf}
+                    </SelectItem>
+                  ))
+                  }
+                </Select>
+                <Select 
+                  label="Other Hobbies" 
+                  selectionMode="multiple"
+                  isDisabled={!edit}
+                  onSelectionChange={(keys: any)=> setOtherHobbies(keys.size)}
+                >
+                  {['reading', 'journalling', 'dancing', 'travelling', 'volunteering', 'listening to music', 'none'].map((otherHobbies, index) => (
+                    <SelectItem key={otherHobbies} value={index} className="text-[#382a40]">
+                      {otherHobbies}
+                    </SelectItem>
+                  ))
+                  }
+                </Select>
           </div>
-
           <div className="text-[#a20f0f] font-head mt-2 flex flex-row gap-2">
             <p>About my preferences</p>
             <FaHeart className="mt-1"/>
@@ -374,7 +402,6 @@ export default function Profile(): JSX.Element{
             </div>
           </div>
         
-          {!edit ||  
           <Button 
             color="primary"
             className="mt-4"  
@@ -384,7 +411,7 @@ export default function Profile(): JSX.Element{
           >
             save
           </Button> 
-          }
+          </>}
         </form>
       </div>
   </> : <>

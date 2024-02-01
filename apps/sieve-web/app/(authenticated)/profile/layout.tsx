@@ -1,7 +1,7 @@
 import { Spinner } from "@nextui-org/react";
 import { Suspense } from "react";
 
-export default function AuthLayout({children}: {
+export default function ProfileLayout({children}: {
   children: React.ReactNode;
 }) {
     return (

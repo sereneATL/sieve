@@ -10,8 +10,10 @@ datasource db {
 model UserProfile {
   id          Int       @id @default(autoincrement())
   email       String    @unique
+  name        String
   gender      Gender 
   age         Int       
+  profilePicture  String
   personalityType PersonalityType 
   sportsScore Int
   artsEntertainmentScore  Int
@@ -40,6 +42,13 @@ model MusicPreferences {
   topArtists String[]
   topTracksString String[]
   topTracksId String[]
+  acousticnessScore Int
+  danceabilityScore Int
+  energyScore Int
+  instrumentalnessScore Int
+  livenessScore Int
+  speechinessScore Int
+  valenceScore Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }

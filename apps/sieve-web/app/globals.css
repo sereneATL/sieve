@@ -31,3 +31,23 @@ body {
     text-wrap: balance;
   }
 }
+
+.card {
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  -moz-backdrop-filter: blur(25px);
+  -ms-backdrop-filter: blur(25px);
+  border-radius: 20px;
+}
+
+.scrollCards::-webkit-scrollbar {
+  display: none;
+}
+
+img {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}

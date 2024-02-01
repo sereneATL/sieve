@@ -62,9 +62,9 @@ export default function SieveNavbar() {
               textValue="profile"
             >
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">{session?.user?.email || ""}</p>
+              <p className="font-semibold">{session?.user?.email}</p>
             </DropdownItem>
-            <DropdownItem key="matches">My Matches</DropdownItem>
+            <DropdownItem key="matches" onClick={() => router.push("/profile/matches")}>My Matches</DropdownItem>
             <DropdownItem
               key="logout"
               color="danger"
