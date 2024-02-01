@@ -52,7 +52,7 @@ export default function Profile(): JSX.Element{
     }
 
     async function getAllData() {
-      getSpotifyData({path: '/me', token: data?.accessToken}).then((x: any) => setProfilePicUrl(x.images[1]))
+      getSpotifyData({path: '/me', token: data?.accessToken}).then((x: any) => setProfilePicUrl(x.images[1].url))
       const {names, topGenres} = await compileSpotifyArtistsData(data?.accessToken);
       const {id, trackNames} = await compileSpotifyTracksData(data?.accessToken);
     
