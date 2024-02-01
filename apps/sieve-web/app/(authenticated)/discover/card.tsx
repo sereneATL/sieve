@@ -17,7 +17,7 @@ const Card = ({ data, active, removeCard }: CardProps) => {
   const session = useSession();
   
   const [exitX, setExitX] = useState(0);
-  const cardRef = useRef(null);
+  // const cardRef = useRef(null);
 
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
@@ -97,7 +97,7 @@ const Card = ({ data, active, removeCard }: CardProps) => {
       <SwipeButton exit={setExitX} removeCard={removeCard} id={data.id} />
       {active ? (
         <motion.div
-          ref={cardRef}
+          // ref={cardRef}
           drag="x"
           dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
           className="card top-6 bg-[#D48F9F]/80 shadow-lg shadow-[#382A40] absolute z-30 flex min-h-[500px] w-11/12 xs:w-[373px] items-center justify-center self-center text-2xl font-body"
