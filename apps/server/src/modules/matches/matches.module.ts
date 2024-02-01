@@ -5,8 +5,8 @@ import { PrismaModule } from '@/server/database/prisma.module';
 import { MatchesService } from './matches.service';
 
 @Module({
-    imports: [PrismaModule],
-    providers: [MatchesRepository, MatchesService],
-    exports: [MatchesService]
+  imports: [PrismaModule],
+  providers: [MatchesRepository, MatchesService],
+  exports: [MatchesService],
 })
 export class MatchesModule {}

@@ -15,7 +15,7 @@ export default function Login() {
 
   useEffect(() => {
     if (status === "authenticated") router.replace("/dashboard");
-  }, [status, router])
+  }, [status])
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

@@ -1,5 +1,5 @@
 'use client';
-import { Button, Image, Spinner} from "@nextui-org/react";
+import { Spinner} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
@@ -24,10 +24,6 @@ export default function Dashboard() {
       });
     }
   }, [session?.user?.email])
-
-  useEffect(() => {
-    console.log(matches)
-  }, [matches])
 
   return (
     <>

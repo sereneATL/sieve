@@ -5,8 +5,8 @@ import { PrismaModule } from '@/server/database/prisma.module';
 import { MusicPreferencesService } from './musicPreferences.service';
 
 @Module({
-    imports: [PrismaModule],
-    providers: [MusicPreferencesRepository, MusicPreferencesService],
-    exports: [MusicPreferencesService]
+  imports: [PrismaModule],
+  providers: [MusicPreferencesRepository, MusicPreferencesService],
+  exports: [MusicPreferencesService],
 })
-export class MusicPreferencesModule{}
+export class MusicPreferencesModule {}

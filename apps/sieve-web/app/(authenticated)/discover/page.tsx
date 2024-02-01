@@ -22,6 +22,7 @@ export default function Page() {
       .then(response => {
         if ( cards.length===0 && response.data.length ){
           const validCards = response.data.filter((card) => !cardsShown.includes(card.id)) as CardData[]
+          console.log(validCards)
           setCards(cards.concat(validCards))
         } else {
           setCardsLeft(false)
@@ -45,7 +46,7 @@ export default function Page() {
         })
       }
     }
-  }, [session?.user?.email, session?.accessToken, getMatches])
+  }, [session?.user?.email, session?.accessToken])
 
   const removeCard = (id: number, action: 'accept' | 'reject') => {
     setCardsShown((prev) => prev.concat(id))
@@ -67,7 +68,7 @@ export default function Page() {
     if (cardsLeft && cards.length === 0 && session?.user?.email) {
       getMatches(session?.user?.email)
     }
-  }, [cards, session?.user?.email, cards.length])
+  }, [cards, cardsLeft, session?.user?.email, cards.length])
 
   return (
     <>

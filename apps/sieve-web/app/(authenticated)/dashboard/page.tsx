@@ -19,7 +19,7 @@ export default function Dashboard() {
         if ('error' in response ) router.push('/profile?edit=true')
       });
     }
-  }, [session?.user?.email, router])
+  }, [session?.user?.email])
 
   return (
     session?.user ? 

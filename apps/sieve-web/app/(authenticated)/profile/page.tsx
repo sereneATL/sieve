@@ -72,7 +72,7 @@ export default function Profile(): JSX.Element{
     if (userProfile?.email && edit){
       router.push('/profile')
     }
-  }, [userProfile])
+  }, [userProfile, edit])
 
   useEffect(() => {
     async function getAggregatedAudioFeatures() {

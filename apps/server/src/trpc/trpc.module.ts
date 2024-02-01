@@ -9,11 +9,20 @@ import { PrismaService } from '@/server/database/prisma.service';
 import { MusicPreferencesService } from '@/server/modules/musicPreferences/musicPreferences.service';
 import { MusicPreferencesRepository } from '@/server/modules/musicPreferences/musicPreferences.repository';
 
-
 @Module({
   imports: [],
   controllers: [],
-  providers: [TrpcService, TrpcRouter, UserProfilesService, MusicPreferencesService, MatchesService, UserProfilesRepository, MusicPreferencesRepository, MatchesRepository,PrismaService ],
-  exports: [UserProfilesService, MusicPreferencesService, MatchesService]
+  providers: [
+    TrpcService,
+    TrpcRouter,
+    UserProfilesService,
+    MusicPreferencesService,
+    MatchesService,
+    UserProfilesRepository,
+    MusicPreferencesRepository,
+    MatchesRepository,
+    PrismaService,
+  ],
+  exports: [UserProfilesService, MusicPreferencesService, MatchesService],
 })
 export class TrpcModule {}

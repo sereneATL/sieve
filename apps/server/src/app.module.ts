@@ -25,9 +25,18 @@ import { MusicPreferencesRepository } from './modules/musicPreferences/musicPref
     PrismaModule,
     MatchesModule,
     UserProfilesModule,
-    MusicPreferencesModule
+    MusicPreferencesModule,
   ],
   controllers: [],
-  providers: [TrpcService, UserProfilesService, MusicPreferencesService, MatchesService, UserProfilesRepository, MusicPreferencesRepository, MatchesRepository, PrismaService],
+  providers: [
+    TrpcService,
+    UserProfilesService,
+    MusicPreferencesService,
+    MatchesService,
+    UserProfilesRepository,
+    MusicPreferencesRepository,
+    MatchesRepository,
+    PrismaService,
+  ],
 })
 export class AppModule {}

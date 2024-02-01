@@ -13,7 +13,7 @@ export class TrpcRouter {
     private readonly trpc: TrpcService,
     private readonly userProfilesService: UserProfilesService,
     private readonly musicPreferencesService: MusicPreferencesService,
-    private readonly matchesService: MatchesService
+    private readonly matchesService: MatchesService,
   ) {}
 
   appRouter = this.trpc.router({
@@ -22,12 +22,12 @@ export class TrpcRouter {
         z.object({
           email: z.string(),
         }),
-      ).query(async ({ input }) => {
+      )
+      .query(async ({ input }) => {
+        const data = await this.userProfilesService.getUserProfile(input);
 
-        const data = await this.userProfilesService.getUserProfile(input)
-        
         if (!data) {
-          return { error: 'user not found'};
+          return { error: 'user not found' };
         }
         return { data };
       }),
@@ -37,10 +37,10 @@ export class TrpcRouter {
         z.object({
           email: z.string(),
           name: z.string(),
-          gender: z.enum(["MALE", "FEMALE"]),
+          gender: z.enum(['MALE', 'FEMALE']),
           age: z.number().min(18).max(80),
           profilePicture: z.string(),
-          personalityType: z.enum(["INTROVERT", "EXTROVERT", "AMBIVERT"]),
+          personalityType: z.enum(['INTROVERT', 'EXTROVERT', 'AMBIVERT']),
           sportsScore: z.number().min(0),
           artsEntertainmentScore: z.number().min(0),
           outdoorActivitiesScore: z.number().min(0),
@@ -48,16 +48,17 @@ export class TrpcRouter {
           culinaryArtsScore: z.number().min(0),
           wellnessFitnessScore: z.number().min(0),
           otherHobbies: z.number().min(0),
-          genderPreference: z.enum(["MALE", "FEMALE", "ALL"]),
+          genderPreference: z.enum(['MALE', 'FEMALE', 'ALL']),
           samePersonalityPreference: z.boolean(),
           sameMusicTypePreference: z.number().min(0).max(3),
           minAgePreference: z.number().min(18).max(80),
           maxAgePreference: z.number().min(18).max(80),
         }),
-      ).mutation(async ({input}) => {
-          return {
-            data: await this.userProfilesService.createUserProfile(input),
-          }
+      )
+      .mutation(async ({ input }) => {
+        return {
+          data: await this.userProfilesService.createUserProfile(input),
+        };
       }),
 
     userMusicPreferences: this.trpc.procedure
@@ -65,7 +66,8 @@ export class TrpcRouter {
         z.object({
           userId: z.number(),
         }),
-      ).query(async ({ input }) => {
+      )
+      .query(async ({ input }) => {
         return {
           data: await this.musicPreferencesService.getMusicPreferences(input),
         };
@@ -85,12 +87,15 @@ export class TrpcRouter {
           instrumentalnessScore: z.number(),
           livenessScore: z.number(),
           speechinessScore: z.number(),
-          valenceScore: z.number()
+          valenceScore: z.number(),
         }),
-      ).mutation(async ({input}) => {
-          return {
-            data: await this.musicPreferencesService.createMusicPreferences(input),
-          }
+      )
+      .mutation(async ({ input }) => {
+        return {
+          data: await this.musicPreferencesService.createMusicPreferences(
+            input,
+          ),
+        };
       }),
 
     possibleMatches: this.trpc.procedure
@@ -98,9 +103,10 @@ export class TrpcRouter {
         z.object({
           email: z.string(),
         }),
-      ).query(async ({ input }) => {
-        return { 
-          data: await this.userProfilesService.getPossibleMatches(input)
+      )
+      .query(async ({ input }) => {
+        return {
+          data: await this.userProfilesService.getPossibleMatches(input),
         };
       }),
 
@@ -109,16 +115,17 @@ export class TrpcRouter {
         z.object({
           user1Id: z.number(),
           user2Id: z.number(),
-          matchScore: z.any()
+          matchScore: z.any(),
         }),
-      ).mutation(async ({input}) => {
-          const {matchScore, ...inputWithoutMatch} = input
-          return {
-            data: await this.matchesService.acceptMatch({
-              matchScore: new Decimal(matchScore),
-              ...inputWithoutMatch
-            }),
-          }
+      )
+      .mutation(async ({ input }) => {
+        const { matchScore, ...inputWithoutMatch } = input;
+        return {
+          data: await this.matchesService.acceptMatch({
+            matchScore: new Decimal(matchScore),
+            ...inputWithoutMatch,
+          }),
+        };
       }),
 
     rejectMatch: this.trpc.procedure
@@ -126,16 +133,17 @@ export class TrpcRouter {
         z.object({
           user1Id: z.number(),
           user2Id: z.number(),
-          matchScore: z.any()
+          matchScore: z.any(),
         }),
-      ).mutation(async ({input}) => {
-          const {matchScore, ...inputWithoutMatch} = input
-          return {
-            data: await this.matchesService.rejectMatch({
-              matchScore: new Decimal(matchScore),
-              ...inputWithoutMatch
-            }),
-          }
+      )
+      .mutation(async ({ input }) => {
+        const { matchScore, ...inputWithoutMatch } = input;
+        return {
+          data: await this.matchesService.rejectMatch({
+            matchScore: new Decimal(matchScore),
+            ...inputWithoutMatch,
+          }),
+        };
       }),
 
     getSuccessfulMatches: this.trpc.procedure
@@ -143,12 +151,12 @@ export class TrpcRouter {
         z.object({
           email: z.string(),
         }),
-      ).query(async ({ input }) => {
-        return { 
-          data: await this.matchesService.getSuccessfulMatches(input)
+      )
+      .query(async ({ input }) => {
+        return {
+          data: await this.matchesService.getSuccessfulMatches(input),
         };
       }),
-
   });
 
   async applyMiddleware(app: INestApplication) {

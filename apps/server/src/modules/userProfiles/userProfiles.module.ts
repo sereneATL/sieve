@@ -7,8 +7,14 @@ import { MusicPreferencesRepository } from '@/server/modules/musicPreferences/mu
 import { MatchesRepository } from '@/server/modules/matches/matches.repository';
 
 @Module({
-    imports: [PrismaModule],
-    providers: [UserProfilesRepository, UserProfilesService, UserProfilesRepository, MusicPreferencesRepository, MatchesRepository],
-    exports: [UserProfilesService]
+  imports: [PrismaModule],
+  providers: [
+    UserProfilesRepository,
+    UserProfilesService,
+    UserProfilesRepository,
+    MusicPreferencesRepository,
+    MatchesRepository,
+  ],
+  exports: [UserProfilesService],
 })
-export class UserProfilesModule{}
+export class UserProfilesModule {}
