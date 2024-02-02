@@ -31,7 +31,7 @@ const Card = ({ data, active, removeCard }: CardProps) => {
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
   
-  const minSwipeDistance = 110 
+  const minSwipeDistance = 170 // touch screen swipe sensitivity
   
   const onTouchStart = (e:any) => {
     setTouchEnd(null) 
