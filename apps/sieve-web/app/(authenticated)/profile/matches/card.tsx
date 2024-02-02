@@ -20,7 +20,7 @@ export default function MatchCard(props: {data: UserProfile, key: string}) {
                 className="object-cover"
                 height={200}
                 shadow="md"
-                src={props.data.profilePicture}
+                src={props.data.profilePicture ? props.data.profilePicture : props.data.gender === "FEMALE" ? "../../assets/female_avatar.svg" : "../../assets/male_avatar.svg"}
                 width="100%"
               />
             </div>
