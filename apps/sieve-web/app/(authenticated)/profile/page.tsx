@@ -98,7 +98,9 @@ export default function Profile(): JSX.Element{
       livenessScore: audioFeatures?.liveness!,
       speechinessScore: audioFeatures?.speechiness!,
       valenceScore: audioFeatures?.valence!
-    })
+    }).catch((error) => {
+      toast.error(error.message)
+    });
   }
 
   const saveUserProfile = async () => {
@@ -121,18 +123,22 @@ export default function Profile(): JSX.Element{
       culinaryArtsScore,
       wellnessFitnessScore,
       otherHobbies,
-    })
+    }).catch((error) => {
+      toast.error(error.message)
+    });
   } 
 
   const onSubmit = async () => {
     setLoading(true);
     // save user 
-    const { data } = await saveUserProfile()
+    const response = await saveUserProfile()
     // save music preferences
-    saveMusicPreferences(data.id).then(_ => {
-      toast.success("Profile successfully saved!");
-      router.push('/dashboard');
-    })
+    if (response && response.data) {
+      saveMusicPreferences(response.data.id).then(_ => {
+        toast.success("Profile successfully saved!");
+        router.push('/dashboard');
+      })
+    } 
   }
   
   return (data?.user ? 

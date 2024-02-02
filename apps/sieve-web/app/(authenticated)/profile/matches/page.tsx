@@ -6,6 +6,7 @@ import { FaHeart } from "react-icons/fa";
 import { trpc } from "@/sieve-web/app/trpc";
 import { UserProfile } from "@/sieve-web/types/types";
 import MatchCard from "./card";
+import { toast } from "react-toastify";
 
 
 export default function Page() {
@@ -18,6 +19,8 @@ export default function Page() {
       .query({ email: session?.user?.email})
       .then((response) => {
         setMatches(response.data)
+      }).catch((error) => {
+        toast.error(error.message)
       });
     }
   }, [session?.user?.email])

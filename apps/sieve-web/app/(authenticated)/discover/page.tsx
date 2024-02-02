@@ -8,6 +8,7 @@ import { AnimatePresence } from "framer-motion";
 import Card from "./card";
 import { FaHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
+import {useRouter} from "next/navigation";
 
 export default function Page() {
   const { data: session } = useSession();
@@ -15,6 +16,7 @@ export default function Page() {
   const [cards, setCards] = useState<CardData[]>([]);
   const [cardsLeft, setCardsLeft] = useState<boolean>(true);
   const [cardsShown, setCardsShown] = useState<number[]>([]);
+  const router = useRouter();
   
   const getMatches = (email: string) => {
     trpc.possibleMatches
@@ -27,24 +29,35 @@ export default function Page() {
         } else {
           setCardsLeft(false)
         }
+      }).catch((error) => {
+        toast.error(error.message)
       });
   } 
 
   useEffect(() => {
     if (session?.user?.email && cards.length === 0){
-      if (session?.accessToken){
-        trpc.user
-          .query({ email: session?.user?.email})
-          .then((response) => {
-            if ('data' in response) {setProfile(response.data as UserProfile)}
-        });
-        getMatches( session?.user?.email)
-      } else {
-        signOut({
-          callbackUrl: "/timeout",
-          redirect: true,
-        })
-      }
+      trpc.user
+      .query({ email: session?.user?.email})
+      .then((response) => {
+        if ('error' in response ) router.push('/profile?edit=true')
+          }).catch((error) => {
+            toast.error(error.message)
+          });
+        if (session?.accessToken){
+          trpc.user
+            .query({ email: session.user.email})
+            .then((response) => {
+              if ('data' in response) {setProfile(response.data as UserProfile)}
+          }).catch((error) => {
+              toast.error(error.message)
+            });
+            getMatches( session?.user?.email)
+          } else {
+          signOut({
+            callbackUrl: "/timeout",
+            redirect: true,
+          })
+        }
     }
   }, [session?.user?.email, session?.accessToken])
 
@@ -58,9 +71,15 @@ export default function Page() {
     }
 
     if (action === 'accept') {
-      trpc.acceptMatch.mutate(input).then(({data}) => {if (data.matchStatus === 'ACCEPTED') toast.success("you have a successful match!")})
+      trpc.acceptMatch.mutate(input)
+      .then(({data}) => {if (data.matchStatus === 'ACCEPTED') toast.success("you have a successful match!")})
+      .catch((error) => {
+        toast.error(error.message)
+      });
     } else {
-      trpc.rejectMatch.mutate(input)
+      trpc.rejectMatch.mutate(input).catch((error) => {
+        toast.error(error.message)
+      });
     }
   };
 
