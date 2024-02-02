@@ -17,7 +17,6 @@ export default function Page() {
       trpc.getSuccessfulMatches
       .query({ email: session?.user?.email})
       .then((response) => {
-        console.log(response.data)
         setMatches(response.data)
       });
     }
@@ -31,11 +30,16 @@ export default function Page() {
                 <FaHeart className="mt-1"/>
             </h2>
         {
-        session?.user && matches ? 
-            (
+        session?.user ? ( matches?.length ? 
                 matches.map((match) => 
                     <MatchCard data={match} key={`${match.id}${Math.random()}`}/>
                 )
+             : 
+             <div className="flex flex-col pt-20 text-[#a20f0f] font-head gap-2 items-center">
+                <div>no successful matches yet</div>
+                <div>keep swiping!</div>
+                <FaHeart className="mt-1"/>
+            </div>
             ) : (
             <div className="flex flex-col gap-1 items-center justify-center w-full">
                 <Spinner />
