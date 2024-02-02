@@ -5,7 +5,6 @@ import {
 } from './userProfiles.repository';
 import { MatchStatus, UserProfile } from '@prisma/client';
 import { MatchesRepository } from '@/server/modules/matches/matches.repository';
-import { MusicPreferencesRepository } from '@/server/modules/musicPreferences/musicPreferences.repository';
 import {
   MatchWithSimilarity,
   calculateAudioFeatureCompatibilityScore,
@@ -84,7 +83,7 @@ export class UserProfilesService {
           not: currentUser.id, // exclude the current user
         },
         NOT: {
-          musicPreferences: null
+          musicPreferences: null,
         },
         ...(currentUser.genderPreference != 'ALL'
           ? { gender: currentUser.genderPreference }
