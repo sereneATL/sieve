@@ -28,7 +28,7 @@ const Card = ({ data, active, removeCard }: CardProps) => {
 
   const minSwipeDistance = 170; // touch screen swipe sensitivity
 
-  const onTouchStart = (e: TouchEvent) => {
+  const onTouchStart = (e: any) => {
     setTouchEnd(undefined);
     setTouchStart(e.targetTouches[0].clientX);
   };
