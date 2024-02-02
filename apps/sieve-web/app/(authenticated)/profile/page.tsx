@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, Button, Input, Select, SelectItem, Spinner, Textarea } from "@nextui-org/react";
+import { Avatar, Button, Checkbox, Input, Select, SelectItem, Spinner, Textarea } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -41,6 +41,8 @@ export default function Profile(): JSX.Element{
   const router = useRouter();
   const searchParams = useSearchParams()
   const edit = !!searchParams.get('edit')
+
+  const [maxAgeRange, setMaxAgeRange] = useState<boolean>(false)
 
   useEffect(() => {
     if (data?.user?.email){
@@ -375,8 +377,12 @@ export default function Profile(): JSX.Element{
             ))
             }
           </Select>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <p className="font-head text-[#a20f0f] text-sm mt-2 flex flex-row gap-2">Preferred age range</p>
+            <div>
+              <Checkbox color="danger" onValueChange={isSelected => setMaxAgeRange(isSelected)} className="font-head text-sm ml-1">no preferred age range</Checkbox>
+            </div>
+            { maxAgeRange || 
             <div className="flex flex-row gap-4">
               <Select 
                 label="Minimum" 
@@ -405,7 +411,7 @@ export default function Profile(): JSX.Element{
                 ))
                 }
               </Select>
-            </div>
+            </div>}
           </div>
         
           <Button 

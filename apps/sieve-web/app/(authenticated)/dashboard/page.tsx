@@ -2,13 +2,14 @@
 import { Button, Image, Spinner} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation'
-import { useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { trpc } from "@/sieve-web/app/trpc";
 
 
 export default function Dashboard() {
   const { data: session } = useSession();
+  const [ updateProfile, setUpdateProfile] = useState<boolean>(true)
   const router = useRouter();
 
   useEffect(() => {
@@ -16,13 +17,13 @@ export default function Dashboard() {
       trpc.user
       .query({ email: session?.user?.email})
       .then((response) => {
-        if ('error' in response ) router.push('/profile?edit=true')
+        ('error' in response ) ? router.push('/profile?edit=true') : setUpdateProfile(false)
       });
     }
   }, [session?.user?.email])
 
   return (
-    session?.user ? 
+    session?.user && !updateProfile ? 
     <>
         <div className="flex flex-col gap-20 sm:w-1/2 w-full items-center">
           <Image
