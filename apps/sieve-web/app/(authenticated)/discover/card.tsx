@@ -109,7 +109,7 @@ const Card = ({ data, active, removeCard }: CardProps) => {
             <div 
               className="relative min-h-[360px] w-full overflow-hidden rounded-b-xl z-[0]">
               <Image
-                src={data.profilePicture}
+                src={data.profilePicture ? data.profilePicture : data.gender === "FEMALE" ? "../../assets/female_avatar.svg" : "../../assets/male_avatar.svg"}
                 fill
                 alt={data.name}
                 style={{

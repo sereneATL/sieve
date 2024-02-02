@@ -80,13 +80,15 @@ export class UserProfilesService {
           gte: currentUser.minAgePreference,
           lte: currentUser.maxAgePreference,
         },
+        id: {
+          not: currentUser.id, // exclude the current user
+        },
+        NOT: {
+          musicPreferences: null
+        },
         ...(currentUser.genderPreference != 'ALL'
           ? { gender: currentUser.genderPreference }
           : {}),
-        NOT: {
-          id: currentUser.id, // exclude the current user
-          musicPreferences: null, 
-        },
       },
       include: { musicPreferences: true },
     });
