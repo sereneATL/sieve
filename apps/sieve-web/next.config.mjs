@@ -10,8 +10,7 @@ const nextConfig = {
           },
           { 
             protocol: "https",
-            hostname: "i.scdn.co",
-            port: "scontent-*.xx.fbcdn.net",
+            hostname: "scontent-*.xx.fbcdn.net",
           }
         ],
       },
