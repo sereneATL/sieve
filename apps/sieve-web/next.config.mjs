@@ -10,7 +10,7 @@ const nextConfig = {
           },
           { 
             protocol: "https",
-            hostname: "scontent-*.xx.fbcdn.net",
+            hostname: "scontent.**.**.fbcdn.net",
           }
         ],
       },
