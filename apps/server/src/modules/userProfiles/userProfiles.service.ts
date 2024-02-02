@@ -32,7 +32,6 @@ export class UserProfilesService {
   constructor(
     private userRepository: UserProfilesRepository,
     private matchesRepository: MatchesRepository,
-    private musicPreferencesRepository: MusicPreferencesRepository,
   ) {}
 
   async createUserProfile(
@@ -86,6 +85,7 @@ export class UserProfilesService {
           : {}),
         NOT: {
           id: currentUser.id, // exclude the current user
+          musicPreferences: null, 
         },
       },
       include: { musicPreferences: true },
