@@ -242,7 +242,7 @@ export default function Profile(): JSX.Element{
                     isDisabled={!edit}
                     onSelectionChange={(keys: any)=> setSportsScore(keys.size)}
                   >
-                  {['football', 'basketball', 'tennis', 'cycling', 'running', 'swimming', 'volleyball', 'golf', 'soccer', 'martial arts', 'none'].map((sport, index) => (
+                  {['football', 'basketball', 'badminton', 'tennis', 'cycling', 'running', 'swimming', 'volleyball', 'golf', 'soccer', 'martial arts', 'none'].map((sport, index) => (
                     <SelectItem key={sport} value={index} className="text-[#382a40]">
                       {sport}
                     </SelectItem>
@@ -320,7 +320,7 @@ export default function Profile(): JSX.Element{
                   isDisabled={!edit}
                   onSelectionChange={(keys: any)=> setOtherHobbies(keys.size)}
                 >
-                  {['reading', 'journalling', 'dancing', 'travelling', 'volunteering', 'listening to music', 'none'].map((otherHobbies, index) => (
+                  {['reading', 'singing', 'streaming', 'journalling', 'travelling', 'volunteering', 'listening to music', 'none'].map((otherHobbies, index) => (
                     <SelectItem key={otherHobbies} value={index} className="text-[#382a40]">
                       {otherHobbies}
                     </SelectItem>
