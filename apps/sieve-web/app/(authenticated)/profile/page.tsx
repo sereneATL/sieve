@@ -69,7 +69,7 @@ export default function Profile(): JSX.Element{
   }, [data?.user, data?.accessToken])
 
   useEffect(() => {
-    if (userProfile?.email && edit){
+    if (userProfile?.musicPreferences && edit){
       router.push('/profile')
     }
   }, [userProfile, edit])
