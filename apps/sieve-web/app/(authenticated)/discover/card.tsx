@@ -28,6 +28,33 @@ const Card = ({ data, active, removeCard }: CardProps) => {
                                         image: string;
                                       }[]>() 
 
+  const [touchStart, setTouchStart] = useState(null)
+  const [touchEnd, setTouchEnd] = useState(null)
+  
+  const minSwipeDistance = 110 
+  
+  const onTouchStart = (e:any) => {
+    setTouchEnd(null) 
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+  
+  const onTouchMove = (e:any) => setTouchEnd(e.targetTouches[0].clientX)
+  
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    if (isLeftSwipe) {
+      setExitX(-200);
+      removeCard(data.id, "reject")
+    }
+    if (isRightSwipe) {
+      setExitX(200);
+      removeCard(data.id, 'accept');
+    }
+  }
+
   useEffect(() => {
     if (data.topTracksId && session.data?.accessToken) {
       if (data.topTracksId.length !== tracksInfo?.length) {
@@ -95,6 +122,9 @@ const Card = ({ data, active, removeCard }: CardProps) => {
           dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
           className="card top-6 bg-[#D48F9F]/80 shadow-lg shadow-[#382A40] absolute z-30 flex min-h-[500px] w-11/12 xs:w-[373px] items-center justify-center self-center text-2xl font-body"
           onDragEnd={dragEnd}
+          onTouchStart={onTouchStart} 
+          onTouchMove={onTouchMove} 
+          onTouchEnd={onTouchEnd}
           initial={{ scale: 0.95, opacity: 0.5 }}
           animate={{
             scale: 1.05,
