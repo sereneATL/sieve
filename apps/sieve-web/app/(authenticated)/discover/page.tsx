@@ -31,7 +31,7 @@ export default function Page() {
   } 
 
   useEffect(() => {
-    if (session?.user?.email){
+    if (session?.user?.email && cards.length === 0){
       if (session?.accessToken){
         trpc.user
           .query({ email: session?.user?.email})

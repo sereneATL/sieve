@@ -17,7 +17,6 @@ const Card = ({ data, active, removeCard }: CardProps) => {
   const session = useSession();
   
   const [exitX, setExitX] = useState(0);
-  // const cardRef = useRef(null);
 
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
@@ -87,22 +86,15 @@ const Card = ({ data, active, removeCard }: CardProps) => {
     }
   };
 
-  const touchStart = (e: TouchEvent) => {
-    // prevent default to disable default browser touch gestures
-    e.preventDefault();
-  };
-
   return (
     <>
       <SwipeButton exit={setExitX} removeCard={removeCard} id={data.id} />
       {active ? (
         <motion.div
-          // ref={cardRef}
           drag="x"
           dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
           className="card top-6 bg-[#D48F9F]/80 shadow-lg shadow-[#382A40] absolute z-30 flex min-h-[500px] w-11/12 xs:w-[373px] items-center justify-center self-center text-2xl font-body"
           onDragEnd={dragEnd}
-          onPanStart={(e: any)=>touchStart(e)}
           initial={{ scale: 0.95, opacity: 0.5 }}
           animate={{
             scale: 1.05,
@@ -114,7 +106,8 @@ const Card = ({ data, active, removeCard }: CardProps) => {
           exit={{ x: exitX }}
         >
           <div className="scrollCards absolute m-auto h-[calc(100%-20px)] w-[calc(100%-20px)] overflow-y-scroll rounded-[20px] border-2 border-white">
-            <div className="relative min-h-[360px] w-full overflow-hidden rounded-b-xl">
+            <div 
+              className="relative min-h-[360px] w-full overflow-hidden rounded-b-xl z-[0]">
               <Image
                 src={data.profilePicture}
                 fill
@@ -132,11 +125,11 @@ const Card = ({ data, active, removeCard }: CardProps) => {
             <p className="mt-3 px-4 font-head text-lg font-medium text-white">
               {data.personalityType.toLowerCase()}
             </p>
-            <div className="mt-3 flex gap-1 px-4 text-base">
+            <div className="mt-3 gap-1 px-4 text-base w-full flex flex-wrap">
               {data.topGenres.map((item, idx) => (
-                <p key={`${item}${idx}`} className="rounded-[7px] bg-[#A20F0F] px-4 py-2">
+                <div key={`${item}${idx}`} className="rounded-[7px] bg-[#A20F0F] px-4 py-2">
                   {item}
-                </p>
+                </div>
               ))}
             </div>
             <Textarea
