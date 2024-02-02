@@ -11,11 +11,7 @@ export default function NotFoundPage() {
   return (
     <div className="flex flex-col justify-center items-center md:flex-row h-screen bg-gradient-to-b from-[#ffd8e1] to-white">
       <div className="flex flex-col gap-20 w-1/2 items-center">
-        <Image
-          isZoomed
-          src="../assets/timeout.svg"
-          alt="page not found"
-        />
+        <Image isZoomed src="../assets/timeout.svg" alt="page not found" />
         <div className="flex flex-col gap-4 w-1/2 justify-center items-center">
           <p className="font-head text-md md:text-lg lg:text-3xl font-semibold text-[#a20f0f]">
             session timeout
@@ -29,7 +25,7 @@ export default function NotFoundPage() {
             variant="ghost"
             className="font-body"
             startContent={<IoMdArrowBack />}
-            onClick={() => router.push('/login')}
+            onClick={() => router.push("/login")}
           >
             sign in
           </Button>

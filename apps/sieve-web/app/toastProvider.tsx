@@ -9,11 +9,8 @@ interface ToastProviderProps {
 export default function ToastProvider({ children }: ToastProviderProps) {
   return (
     <>
-        {children}
-        <ToastContainer 
-            position="top-center"
-            autoClose={5000}
-        />
+      {children}
+      <ToastContainer position="top-center" autoClose={5000} />
     </>
   );
 }

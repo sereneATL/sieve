@@ -1,12 +1,10 @@
 import { withAuth } from "next-auth/middleware";
 import { pages } from "@/sieve-web/auth.config";
 
-export default withAuth(
-  {
-    secret: process.env.AUTH_SECRET,
-    pages,
-  },
-);
+export default withAuth({
+  secret: process.env.AUTH_SECRET,
+  pages,
+});
 
 export const config = {
   matcher: [

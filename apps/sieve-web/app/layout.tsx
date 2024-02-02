@@ -10,16 +10,16 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-montserrat",
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
 });
 
 const roboto = Roboto_Mono({
-  subsets: ['latin'],
-  variable: '--font-roboto',
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
-  display: 'swap',
+  subsets: ["latin"],
+  variable: "--font-roboto",
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -37,9 +37,7 @@ export default function RootLayout({
       <body className={`${montserrat.variable} ${roboto.variable}`}>
         <Providers>
           <AuthSessionProvider>
-            <ToastProvider>
-              {children}
-            </ToastProvider>
+            <ToastProvider>{children}</ToastProvider>
           </AuthSessionProvider>
         </Providers>
       </body>

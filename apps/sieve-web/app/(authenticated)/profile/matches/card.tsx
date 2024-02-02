@@ -1,9 +1,8 @@
 import React from "react";
-import {Card, CardBody, Image, Textarea} from "@nextui-org/react";
+import { Card, CardBody, Image, Textarea } from "@nextui-org/react";
 import { UserProfile } from "@/sieve-web/types/types";
 
-export default function MatchCard(props: {data: UserProfile, key: string}) {
-
+export default function MatchCard(props: { data: UserProfile; key: string }) {
   return (
     <Card
       key={props.key}
@@ -20,36 +19,49 @@ export default function MatchCard(props: {data: UserProfile, key: string}) {
                 className="object-cover"
                 height={200}
                 shadow="md"
-                src={props.data.profilePicture ? props.data.profilePicture : props.data.gender === "FEMALE" ? "../../assets/female_avatar.svg" : "../../assets/male_avatar.svg"}
+                src={
+                  props.data.profilePicture
+                    ? props.data.profilePicture
+                    : props.data.gender === "FEMALE"
+                      ? "../../assets/female_avatar.svg"
+                      : "../../assets/male_avatar.svg"
+                }
                 width="100%"
               />
             </div>
             <div className="flex flex-col gap-2 w-full mt-3 text-[#D48F9F] lg:text-md text-sm font-body">
-              <p className="font-head font-semibold text-black lg:text-xl text-lg">{props.data.name}</p>
+              <p className="font-head font-semibold text-black lg:text-xl text-lg">
+                {props.data.name}
+              </p>
               <p>{props.data.email}</p>
               <div className="w-full flex flex-row gap-8">
-                  <p>{props.data.age}</p>
-                  <p>{props.data.gender.toLowerCase()}</p>
+                <p>{props.data.age}</p>
+                <p>{props.data.gender.toLowerCase()}</p>
               </div>
-              <p >
-                {props.data.personalityType.toLowerCase()}
-              </p>
+              <p>{props.data.personalityType.toLowerCase()}</p>
             </div>
           </div>
-        <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full">
             <div className="mt-3 flex gap-1 px-4 text-base">
-                {(props.data.musicPreferences?.topGenres.slice(0,6)!).map((item) => (
-                  <p key={item} className="rounded-[7px] bg-[#A20F0F] px-4 py-2">
+              {props.data.musicPreferences?.topGenres
+                .slice(0, 6)!
+                .map((item) => (
+                  <p
+                    key={item}
+                    className="rounded-[7px] bg-[#A20F0F] px-4 py-2"
+                  >
                     {item}
                   </p>
                 ))}
-              </div>
-              <Textarea
-                label="Top artists"
-                isDisabled
-                className='mt-5 px-2 font-body'
-                value={props.data.musicPreferences?.topArtists.slice(0,10).join(', ')}
-              />
+            </div>
+            <Textarea
+              label="Top artists"
+              isDisabled
+              className="mt-5 px-2 font-body"
+              value={props.data.musicPreferences?.topArtists
+                .slice(0, 10)
+                .join(", ")}
+            />
           </div>
         </div>
       </CardBody>

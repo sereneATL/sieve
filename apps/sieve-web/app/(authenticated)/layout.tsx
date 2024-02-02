@@ -5,7 +5,6 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  
   return (
     <div className="flex flex-col min-h-screen bg-[#ffd8e1] overflow">
       <SieveNavbar></SieveNavbar>

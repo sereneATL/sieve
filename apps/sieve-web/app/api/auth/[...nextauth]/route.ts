@@ -5,41 +5,39 @@ import NextAuth, { AuthOptions } from "next-auth";
 import { pages } from "@/sieve-web/auth.config";
 import { JWT } from "next-auth/jwt/types";
 
-const scopes = [
-  "user-read-private",
-  "user-read-email",
-  "user-top-read"
-].join(",")
+const scopes = ["user-read-private", "user-read-email", "user-top-read"].join(
+  ",",
+);
 
 const params = {
-  scope: scopes
-}
+  scope: scopes,
+};
 
-const LOGIN_URL = "https://accounts.spotify.com/authorize?" + new URLSearchParams(params).toString();
+const LOGIN_URL =
+  "https://accounts.spotify.com/authorize?" +
+  new URLSearchParams(params).toString();
 
-async function refreshAccessToken(token: JWT){
-  const response = await fetch(
-    "https://accounts.spotify.com/api/token", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({
-        grant_type: 'refresh_token',
-        refresh_token: token.refreshToken as any,
-        client_id: process.env.SPOTIFY_ID ?? "",
-      }),
-    }
-  )
+async function refreshAccessToken(token: JWT) {
+  const response = await fetch("https://accounts.spotify.com/api/token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: token.refreshToken as any,
+      client_id: process.env.SPOTIFY_ID ?? "",
+    }),
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
-  return { 
+  return {
     ...token,
     accessToken: data.access_token,
     refreshToken: data.refresh_token ?? token,
-    accessTokenExpires: Date.now() + data.expires_in * 1000
-  }
+    accessTokenExpires: Date.now() + data.expires_in * 1000,
+  };
 }
 
 const authOptions: AuthOptions = {
@@ -48,34 +46,35 @@ const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
-        token.accessToken = account.access_token
-        token.refreshToken = account.refresh_token
-        token.accessTokenExpires = account.expires_at
-        return token
-    }
-    // access token has not expired
-    if (token.accessTokenExpires && Date.now() < (token.accessTokenExpires as number) * 1000) {
-        return token
-    }
+        token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token;
+        token.accessTokenExpires = account.expires_at;
+        return token;
+      }
+      // access token has not expired
+      if (
+        token.accessTokenExpires &&
+        Date.now() < (token.accessTokenExpires as number) * 1000
+      ) {
+        return token;
+      }
 
-    // access token has expired
-    return await refreshAccessToken(token)
-      
+      // access token has expired
+      return await refreshAccessToken(token);
     },
-    async session({ session, token, user }) {
-      session.accessToken = token.accessToken
-      return session
-    }
+    async session({ session, token }) {
+      session.accessToken = token.accessToken;
+      return session;
+    },
   },
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   providers: [
     SpotifyProvider({
       clientId: process.env.SPOTIFY_ID ?? "",
       clientSecret: process.env.SPOTIFY_SECRET ?? "",
-      authorization:LOGIN_URL,
-      
+      authorization: LOGIN_URL,
     }),
   ],
 };

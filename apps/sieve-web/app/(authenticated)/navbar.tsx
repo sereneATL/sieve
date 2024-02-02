@@ -55,8 +55,8 @@ export default function SieveNavbar() {
             variant="flat"
             className="text-[#382a40]"
           >
-            <DropdownItem 
-              key="profile" 
+            <DropdownItem
+              key="profile"
               className="h-14 gap-2"
               onClick={() => router.push("/profile")}
               textValue="profile"
@@ -64,7 +64,12 @@ export default function SieveNavbar() {
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">{session?.user?.email}</p>
             </DropdownItem>
-            <DropdownItem key="matches" onClick={() => router.push("/profile/matches")}>My Matches</DropdownItem>
+            <DropdownItem
+              key="matches"
+              onClick={() => router.push("/profile/matches")}
+            >
+              My Matches
+            </DropdownItem>
             <DropdownItem
               key="logout"
               color="danger"
