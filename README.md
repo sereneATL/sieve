@@ -5,7 +5,7 @@ see it live here: https://sieve.up.railway.app/
 
 ## how it works
 firstly, potential matches are filtered based on the current user's preferred gender and age range. then, sorted suggested matches are returned to the user.  
-the suggested matches are curated and priotised using a **match score** that is derived from a combination of multiple factors:
+the suggested matches are curated and prioritized using a **match score** that is derived from a combination of multiple factors:
 ### 1. interests similarity
 - derived from categorized interests score, where similarity between two user's interests are calculated using cosine similarity and vector magnitudes. the higher the similarity between two user's categorical interests, the higher the match score  
 
