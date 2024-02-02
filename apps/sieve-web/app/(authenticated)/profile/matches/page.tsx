@@ -1,7 +1,6 @@
 'use client';
 import { Spinner} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { trpc } from "@/sieve-web/app/trpc";
@@ -9,17 +8,16 @@ import { UserProfile } from "@/sieve-web/types/types";
 import MatchCard from "./card";
 
 
-export default function Dashboard() {
+export default function Page() {
   const { data: session } = useSession();
   const [matches, setMatches] = useState<UserProfile[]>();
-  const router = useRouter();
-
 
   useEffect(() => {
     if (session?.user?.email){
       trpc.getSuccessfulMatches
       .query({ email: session?.user?.email})
       .then((response) => {
+        console.log(response.data)
         setMatches(response.data)
       });
     }
