@@ -600,13 +600,20 @@ export default function Profile(): JSX.Element {
                 <div>
                   <Checkbox
                     color="danger"
-                    onValueChange={(isSelected) => setMaxAgeRange(isSelected)}
+                    onValueChange={(isSelected) => {
+                      if (isSelected){
+                        setMinAgePreference(18)
+                        setMaxAgePreference(80)
+                      } else{
+                        setMinAgePreference(undefined)
+                        setMaxAgePreference(undefined)
+                      }
+                    }}
                     className="font-head text-sm ml-1 text-[#594E60]"
                   >
                     no preferred age range
                   </Checkbox>
                 </div>
-                {maxAgeRange || (
                   <div className="flex flex-row gap-4">
                     <Select
                       label="Minimum"
@@ -659,7 +666,6 @@ export default function Profile(): JSX.Element {
                       )}
                     </Select>
                   </div>
-                )}
               </div>
 
               <Button
