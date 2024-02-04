@@ -601,12 +601,12 @@ export default function Profile(): JSX.Element {
                   <Checkbox
                     color="danger"
                     onValueChange={(isSelected) => {
-                      if (isSelected){
-                        setMinAgePreference(18)
-                        setMaxAgePreference(80)
-                      } else{
-                        setMinAgePreference(undefined)
-                        setMaxAgePreference(undefined)
+                      if (isSelected) {
+                        setMinAgePreference(18);
+                        setMaxAgePreference(80);
+                      } else {
+                        setMinAgePreference(undefined);
+                        setMaxAgePreference(undefined);
                       }
                     }}
                     className="font-head text-sm ml-1 text-[#594E60]"
@@ -614,58 +614,58 @@ export default function Profile(): JSX.Element {
                     no preferred age range
                   </Checkbox>
                 </div>
-                  <div className="flex flex-row gap-4">
-                    <Select
-                      label="Minimum"
-                      isDisabled={!edit}
-                      onSelectionChange={(keys: any) =>
-                        setMinAgePreference(parseInt(keys.currentKey))
-                      }
-                    >
-                      {Array.from({ length: 63 }, (_, index) => index + 18).map(
-                        (age) => (
-                          <SelectItem
-                            key={age}
-                            value={age}
-                            className="text-[#382a40]"
-                          >
-                            {age.toString()}
-                          </SelectItem>
-                        ),
-                      )}
-                    </Select>
-                    <p className="mt-2 text-3xl">-</p>
-                    <Select
-                      label="Maximum"
-                      isDisabled={!edit}
-                      errorMessage={
-                        maxAgePreference &&
-                        minAgePreference &&
-                        maxAgePreference < minAgePreference
-                          ? "Max age cannot be lower than min age"
-                          : ""
-                      }
-                      isInvalid={
-                        !!(maxAgePreference && minAgePreference) &&
-                        maxAgePreference < minAgePreference
-                      }
-                      onSelectionChange={(keys: any) =>
-                        setMaxAgePreference(parseInt(keys.currentKey))
-                      }
-                    >
-                      {Array.from({ length: 63 }, (_, index) => index + 18).map(
-                        (age) => (
-                          <SelectItem
-                            key={age}
-                            value={age}
-                            className="text-[#382a40]"
-                          >
-                            {age.toString()}
-                          </SelectItem>
-                        ),
-                      )}
-                    </Select>
-                  </div>
+                <div className="flex flex-row gap-4">
+                  <Select
+                    label="Minimum"
+                    isDisabled={!edit}
+                    onSelectionChange={(keys: any) =>
+                      setMinAgePreference(parseInt(keys.currentKey))
+                    }
+                  >
+                    {Array.from({ length: 63 }, (_, index) => index + 18).map(
+                      (age) => (
+                        <SelectItem
+                          key={age}
+                          value={age}
+                          className="text-[#382a40]"
+                        >
+                          {age.toString()}
+                        </SelectItem>
+                      ),
+                    )}
+                  </Select>
+                  <p className="mt-2 text-3xl">-</p>
+                  <Select
+                    label="Maximum"
+                    isDisabled={!edit}
+                    errorMessage={
+                      maxAgePreference &&
+                      minAgePreference &&
+                      maxAgePreference < minAgePreference
+                        ? "Max age cannot be lower than min age"
+                        : ""
+                    }
+                    isInvalid={
+                      !!(maxAgePreference && minAgePreference) &&
+                      maxAgePreference < minAgePreference
+                    }
+                    onSelectionChange={(keys: any) =>
+                      setMaxAgePreference(parseInt(keys.currentKey))
+                    }
+                  >
+                    {Array.from({ length: 63 }, (_, index) => index + 18).map(
+                      (age) => (
+                        <SelectItem
+                          key={age}
+                          value={age}
+                          className="text-[#382a40]"
+                        >
+                          {age.toString()}
+                        </SelectItem>
+                      ),
+                    )}
+                  </Select>
+                </div>
               </div>
 
               <Button
